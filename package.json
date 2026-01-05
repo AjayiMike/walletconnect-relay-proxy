@@ -1,4 +1,14 @@
 {
-  "name": "wallet-connect-reverse-proxy",
-  "packageManager": "yarn@4.10.3"
+  "name": "wc-relay-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "http-proxy": "^1.18.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
 }

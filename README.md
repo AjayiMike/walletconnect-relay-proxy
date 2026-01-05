@@ -1,1 +1,1 @@
-# wallet-connect-reverse-proxy
+# walletconnect-relay-proxy
