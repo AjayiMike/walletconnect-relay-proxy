@@ -20,10 +20,18 @@ proxy.on("proxyReq", (proxyReq, req) => {
 });
 
 proxy.on("error", (err, req, res) => {
-  // If this was an HTTP request, return a 502
-  if (res && !res.headersSent) {
-    res.writeHead(502, { "Content-Type": "text/plain" });
-    res.end("Bad gateway");
+  // HTTP path: res is a ServerResponse
+  if (res && typeof res.writeHead === "function") {
+    if (!res.headersSent) res.writeHead(502, { "Content-Type": "text/plain" });
+    return res.end("Bad gateway");
+  }
+
+  // WS path: res is a Socket (or undefined)
+  // Best effort: close the socket if present
+  if (res && typeof res.end === "function") {
+    try {
+      res.end();
+    } catch {}
   }
 });
 
