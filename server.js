@@ -7,9 +7,16 @@ const UPSTREAM = process.env.UPSTREAM || "https://relay.walletconnect.org"; // o
 
 const proxy = httpProxy.createProxyServer({
   target: UPSTREAM,
-  changeOrigin: true,
   ws: true,
   secure: true,
+  changeOrigin: false,
+});
+
+proxy.on("proxyReq", (proxyReq, req) => {
+  // Preserve original host for JWT audience validation
+  if (req.headers.host) {
+    proxyReq.setHeader("Host", req.headers.host);
+  }
 });
 
 proxy.on("error", (err, req, res) => {
